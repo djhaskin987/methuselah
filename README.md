@@ -12,6 +12,9 @@ I wanted to make an SCM for fun, and here we are.
 
 All strings are unicode strings, including emails, tags, timestamps, etc.
 
+All timestamps will be recorded with the UTC timezone and converted to local
+time upon display and from local time upon scan or input.
+
 Timestamps are stored in some binary format and are always displayed in ISO
 format.
 
@@ -50,6 +53,10 @@ previously captured files. Then the latest capture of these files are frozen
 together. If all captures found exist exactly in a different freeze, the freeze
 is aborted gracefully.
 
+In order to facilitate fast freezing, a sha256sum of all the sha256sums of
+captures and their filenames is taken and recorded as part of the freeze.
+This is then used to detect if a freeze should happen.
+
 ## Tagging
 
 Freezes can be tagged. A freeze may have as many free form tags as may be.
@@ -72,7 +79,9 @@ HTTPS.
 Two freezes can be selected for merge, creating a new freeze. For each file
 that exists in both, it must be decided which version of the file is used.
 --ours, --theirs "yes to all" options can be specified. Intrafile merges not
-supported in the initial version.
+supported in the initial version. It must also be decided which tags are
+inherited. --our-tags, --their-tags, and --both-tags and --no-tags are
+allowed, with --our-tags as the default.
 
 ## Checkout
 
