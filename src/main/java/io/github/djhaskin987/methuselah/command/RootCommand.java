@@ -2,23 +2,19 @@ package io.github.djhaskin987.methuselah.command;
 
 import java.util.Queue;
 import java.util.Properties;
-import java.util.Arrays;
 
 /**
  * The command that houses the root command for Methuselah.
  */
-public final class CaptureCommand implements Command {
+public final class RootCommand implements Command {
 
     /**
      * Create a default instance of the root command.
      *
-     * @param deps
-     *                 dependency injection class.
-     *
      * @return a new RootCommand instance.
      */
-    public static Command createInstance(final CommandDeps deps) {
-        return new CaptureCommand(deps);
+    public static Command createDefaultInstance() {
+        return new RootCommand(CommandDeps.createDefaultInstance());
     }
 
     /**
@@ -33,7 +29,7 @@ public final class CaptureCommand implements Command {
      *                 a command dependencies instance for dependency injection
      *                 purposes.
      */
-    private CaptureCommand(final CommandDeps deps) {
+    private RootCommand(final CommandDeps deps) {
         this.dependencies = deps;
     }
 
@@ -59,16 +55,13 @@ public final class CaptureCommand implements Command {
             printHelpPage();
             return 1;
         }
-        if (arguments.size() > 0) {
-            throw new CommandException(
-                    "Unknown commands: " + String.join(" ", arguments));
-        }
-
-        String[] inclusions = options.getProperty("capture.inclusions")
-                .split(",");
-        Arrays.asList(inclusions);
-
         String argument = arguments.poll();
-        return 0;
+        if (argument == "capture") {
+            Command captureCommand = CaptureCommand
+                    .createInstance(dependencies);
+            return captureCommand.invoke(options, arguments);
+        } else {
+            throw new CommandException("Unknown command: " + argument);
+        }
     }
 }

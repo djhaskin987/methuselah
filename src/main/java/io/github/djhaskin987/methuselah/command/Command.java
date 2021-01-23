@@ -1,13 +1,22 @@
 package io.github.djhaskin987.methuselah.command;
 
-import java.util.concurrent.Callable;
+import java.util.Properties;
+import java.util.Queue;
 
 /**
  * Interface that describes a Methuselah leaf command.
  */
-public interface Command extends Callable<Integer> {
+public interface Command {
+
     /**
-     * Print the help page for this command.
+     * Invoke the command given the options and remaining subcommands.
+     *
+     * @param options
+     *                      the options given by the user.
+     * @param arguments
+     *                      the other arguments given by the user.
+     * @return the exit code of the command.
      */
-    void printHelpPage();
+    int invoke(Properties options, Queue<String> arguments)
+            throws CommandException;
 }
