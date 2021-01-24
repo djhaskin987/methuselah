@@ -1,7 +1,7 @@
 package io.github.djhaskin987.methuselah;
 
 import java.util.Properties;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Queue;
 import java.util.ArrayDeque;
 
@@ -29,7 +29,8 @@ public final class Methuselah {
 
         Gumshoe optionsGatherer = Gumshoe.createDefaultInstance();
         GumshoeReturn gatheringResults = optionsGatherer.gatherOptions(
-                "methuselah", new HashMap<String, String>(), args);
+                "methuselah",
+                Map.of("--help", "help", "-h", "help", "-?", "help"), args);
 
         Properties options = gatheringResults.getOptionsMap();
         Queue<String> subcommands = new ArrayDeque<String>();

@@ -2,6 +2,7 @@ package io.github.djhaskin987.methuselah.command;
 
 import java.util.Queue;
 import java.util.Properties;
+import java.nio.charset.StandardCharsets;
 
 /**
  * The command that houses the root command for Methuselah.
@@ -30,14 +31,14 @@ public final class RootCommand implements Command {
      *                 purposes.
      */
     private RootCommand(final CommandDeps deps) {
-        this.dependencies = deps;
+        dependencies = deps;
     }
 
     /**
      * Print help page for the root command.
      */
     public void printHelpPage() {
-
+        dependencies.out().println("TODO: write help page");
     }
 
     /**
@@ -51,12 +52,11 @@ public final class RootCommand implements Command {
      */
     public int invoke(final Properties options, final Queue<String> arguments)
             throws CommandException {
-        if (arguments.peek() == null || arguments.peek() == "help") {
+        String argument = arguments.poll();
+        if (argument == null || argument.equals("help")) {
             printHelpPage();
             return 1;
-        }
-        String argument = arguments.poll();
-        if (argument == "capture") {
+        } else if (argument.equals("capture")) {
             Command captureCommand = CaptureCommand
                     .createInstance(dependencies);
             return captureCommand.invoke(options, arguments);

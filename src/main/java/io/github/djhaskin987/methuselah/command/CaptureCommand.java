@@ -41,6 +41,7 @@ public final class CaptureCommand implements Command {
      * Print help page for the root command.
      */
     public void printHelpPage() {
+        dependencies.out().println("TODO: write help page");
 
     }
 
@@ -68,7 +69,7 @@ public final class CaptureCommand implements Command {
                 .split(",");
         Arrays.asList(inclusions);
 
-        String argument = arguments.poll();
+        // String argument = arguments.poll();
         return 0;
     }
 }
