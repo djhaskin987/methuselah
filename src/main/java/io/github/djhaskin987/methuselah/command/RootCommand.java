@@ -2,7 +2,6 @@ package io.github.djhaskin987.methuselah.command;
 
 import java.util.Queue;
 import java.util.Properties;
-import java.nio.charset.StandardCharsets;
 
 /**
  * The command that houses the root command for Methuselah.
@@ -38,7 +37,12 @@ public final class RootCommand implements Command {
      * Print help page for the root command.
      */
     public void printHelpPage() {
-        dependencies.out().println("TODO: write help page");
+        String[] message = new String[] {"Welcome to Methuselah:",
+                "The history manager that remembers eeeeverything.", "",
+                "Subcommands:", "", "  - `init`", "  - `capture`" };
+        for (String line : message) {
+            dependencies.out().println(line);
+        }
     }
 
     /**
@@ -56,6 +60,10 @@ public final class RootCommand implements Command {
         if (argument == null || argument.equals("help")) {
             printHelpPage();
             return 1;
+            // } else if (argument.equals("init")) {
+            // Command captureCommand =
+            // InitCommand.createInstance(dependencies);
+            // return captureCommand.invoke(options, arguments);
         } else if (argument.equals("capture")) {
             Command captureCommand = CaptureCommand
                     .createInstance(dependencies);
