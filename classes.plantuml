@@ -1,22 +1,14 @@
 @startuml Methuselah Model
-class Channel {
-    Series source
-    Series destination
-}
 class Series {
-    Long lastAssignedSerialNumber
-    Map<Long, Serial> events
-}
-class Revision {
-    Map<String, Snapshot> snapshots
-    String message
+    Long startSequenceNumber
+    Long latestSequenceNumber
+    Boolean finished
 }
 class Author {
     String authorName
     String authorEmail
 }
 class Snapshot {
-    Content content
     String userAddress
 }
 class Content {
@@ -24,20 +16,17 @@ class Content {
 }
 class Repository
 
-class SerialNode {
-    +accept()
-    +visitRevision()
-    +visitChannel()
+class Revision {
+    String message
+    Date authored
+    Long sequenceNumber
 }
 
-class Revision extends SerialNode
-class Channel extends SerialNode
 
 Repository "1" *-- "many" Series
 Revision "many" o-- "many" Snapshot
-Revision "many" -- "many" Revision
-Revision "1" *-- "1" Author
-Series "1" *-- "many" SerialNode
+Revision "many" *-- "1" Author
+Series "1" *-- "many" Revision
 Snapshot "1" *-- "1" Content
 
 @enduml
